@@ -15,13 +15,8 @@ namespace FlickrSearch
             var canExecute = this.WhenAnyValue(x => x.SearchText)
                 .Select(x => !String.IsNullOrWhiteSpace(x));
 
-            this.WhenAnyValue(x => x.SearchText)
-                .Throttle(TimeSpan.FromMilliseconds(500))
-                .InvokeCommand(Update);
-
             Update = ReactiveCommand.CreateAsyncTask(canExecute, o =>
             {
-                Console.WriteLine(SearchText);
                 ShowError = false;
                 return imageService.GetImages(SearchText);
             });
@@ -32,6 +27,10 @@ namespace FlickrSearch
             });
             Update.ThrownExceptions.Subscribe(_ => ShowError = true);
             isLoading = Update.IsExecuting.ToProperty(this, vm => vm.IsLoading);
+
+            this.WhenAnyValue(x => x.SearchText)
+                .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
+                .InvokeCommand(Update);
         }
 
         private string searchText;

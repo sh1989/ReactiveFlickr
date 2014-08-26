@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         
         <TextBox Grid.Row="0"
-                 Text="{Binding SearchText}" />
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
         
         <ListView Grid.Row="1" />
         
