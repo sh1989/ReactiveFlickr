@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace FlickrSearch
+namespace ReactiveFlickr.Desktop
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

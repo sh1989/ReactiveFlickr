@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReactiveUI;
+using Splat;
 
-namespace FlickrSearch
+namespace ReactiveFlickr
 {
     public interface IImageService
     {
-        Task<ReactiveList<object>> GetImages(string searchTerm);
+        Task<ReactiveList<IBitmap>> GetImages(string searchTerm);
     }
 }

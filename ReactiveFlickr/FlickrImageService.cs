@@ -1,9 +1,14 @@
-﻿using ReactiveUI;
+﻿using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Xml.Linq;
+using ReactiveUI;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Splat;
 
-namespace FlickrSearch
+namespace ReactiveFlickr
 {
     public class FlickrImageService : IImageService
     {
@@ -16,19 +21,36 @@ namespace FlickrSearch
         private readonly string photoUrlFormat = "https://farm{0}.staticflickr.com/{1}/{2}_{3}_q.jpg";
 
 
-        public async Task<ReactiveList<object>> GetImages(string searchTerm)
+        public async Task<ReactiveList<IBitmap>> GetImages(string searchTerm)
         {
-            var c = new WebClient();
+            var list = new ReactiveList<IBitmap>();
+            var c = new HttpClient();
             var address = new Uri(string.Format(searchUrlFormat, searchTerm));
-            var searchResults = await c.DownloadStringTaskAsync(address);
+            var searchResults = await c.GetStringAsync(address);
 
-            // for each photo
-            // var imageAddress = new Uri(string.Format(photoUrlFormat, photo.farm, photo.server, photo.id, photo.secret);
-            // byte[] imageBytes = await wc.DownloadDataTaskAsync(imageAddress);
-            // IBitmap image = await BitmapLoader.Current.Load(imageBytes, null, null);
+            var pa = XDocument.Parse(searchResults)
+                .Descendants("photos")
+                .Descendants("photo");
+            var photos = pa
+               
+                .Select(p => new
+                {
+                    Url = string.Format(
+                        photoUrlFormat,
+                        p.Attribute("farm").Value,
+                        p.Attribute("server").Value,
+                        p.Attribute("id").Value,
+                        p.Attribute("secret").Value),
+                    Title = p.Attribute("title").Value
+                });
 
-            // In the view: ImageView.Source = <path to image on view model>.ToNative();
-
+            foreach (var photo in photos.Take(10))
+            {
+                var imageData = await c.GetByteArrayAsync(photo.Url);
+                var stream = new MemoryStream(imageData);
+                var image = await BitmapLoader.Current.Load(stream, null, null);
+                list.Add(image);
+            }
 
             /*
              * expected response:
@@ -54,9 +76,9 @@ namespace FlickrSearch
              * o: original
              */
 
-            await Task.Delay(rand.Next(1000, 3000));
+            //await Task.Delay(rand.Next(1000, 3000));
 
-            return new ReactiveList<object>();
+            return list;
         }
     }
 }

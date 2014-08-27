@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveFlickr", "ReactiveFlickr\ReactiveFlickr.csproj", "{EB72F788-4068-4326-AAD2-C358AF630835}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop", "Desktop\Desktop.csproj", "{EB72F788-4068-4326-AAD2-C358AF630835}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveFlickr", "ReactiveFlickr\ReactiveFlickr.csproj", "{85C5489F-318C-498B-A516-CC173057A510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EB72F788-4068-4326-AAD2-C358AF630835}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB72F788-4068-4326-AAD2-C358AF630835}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB72F788-4068-4326-AAD2-C358AF630835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85C5489F-318C-498B-A516-CC173057A510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85C5489F-318C-498B-A516-CC173057A510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85C5489F-318C-498B-A516-CC173057A510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85C5489F-318C-498B-A516-CC173057A510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,13 +5,16 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReactiveUI;
+using Splat;
 
-namespace FlickrSearch
+namespace ReactiveFlickr
 {
     public class FlickrSearchViewModel : ReactiveObject
     {
         public FlickrSearchViewModel(IImageService imageService)
         {
+            Images = new ReactiveList<IBitmap>();
+
             var canExecute = this.WhenAnyValue(x => x.SearchText)
                 .Select(x => !String.IsNullOrWhiteSpace(x));
 
@@ -50,9 +53,9 @@ namespace FlickrSearch
         private readonly ObservableAsPropertyHelper<bool> isLoading;
         public bool IsLoading { get { return isLoading.Value; } }
 
-        public ReactiveList<object> Images { get; set; }
+        public ReactiveList<IBitmap> Images { get; set; }
 
-        public ReactiveCommand<ReactiveList<object>> Update { get; set; }
+        public ReactiveCommand<ReactiveList<IBitmap>> Update { get; set; }
 
         
     }
