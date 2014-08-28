@@ -14,11 +14,13 @@ namespace ReactiveFlickr
 
             this.WhenAnyValue(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
-                .Select(x =>
+                .Do(_ =>
                 {
                     IsLoading = true;
                     ShowError = false;
-
+                })
+                .Select(x =>
+                {
                     if (string.IsNullOrWhiteSpace(x))
                     {
                         return Task.FromResult(new ReactiveList<SearchResult>());
@@ -34,7 +36,11 @@ namespace ReactiveFlickr
                         IsLoading = false;
                         Images = images;
                     },
-                    exception => ShowError = true,
+                    exception =>
+                    {
+                        ShowError = true;
+                        IsLoading = false;
+                    },
                     () => { });
         }
 
