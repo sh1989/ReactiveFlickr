@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ReactiveUI;
+﻿using ReactiveUI;
 using Splat;
+using System;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace ReactiveFlickr
 {
@@ -15,25 +12,30 @@ namespace ReactiveFlickr
         {
             Images = new ReactiveList<IBitmap>();
 
-            var canExecute = this.WhenAnyValue(x => x.SearchText)
-                .Select(x => !String.IsNullOrWhiteSpace(x));
-
-            Update = ReactiveCommand.CreateAsyncTask(canExecute, o =>
-            {
-                ShowError = false;
-                return imageService.GetImages(SearchText);
-            });
-            Update.Subscribe(images =>
-            {
-                Images.Clear();
-                Images = images;
-            });
-            Update.ThrownExceptions.Subscribe(_ => ShowError = true);
-            isLoading = Update.IsExecuting.ToProperty(this, vm => vm.IsLoading);
-
             this.WhenAnyValue(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
-                .InvokeCommand(Update);
+                .Select(x =>
+                {
+                    IsLoading = true;
+                    ShowError = false;
+
+                    if (string.IsNullOrWhiteSpace(x))
+                    {
+                        return Task.FromResult(new ReactiveList<IBitmap>());
+                    }
+
+                    return imageService.GetImages(x);
+                })
+                .Switch()
+                .SubscribeOn(RxApp.MainThreadScheduler)
+                .Subscribe(
+                    images =>
+                    {
+                        IsLoading = false;
+                        Images = images;
+                    },
+                    exception => ShowError = true,
+                    () => { });
         }
 
         private string searchText;
@@ -50,10 +52,20 @@ namespace ReactiveFlickr
             set { this.RaiseAndSetIfChanged(ref showError, value); }
         }
 
-        private readonly ObservableAsPropertyHelper<bool> isLoading;
-        public bool IsLoading { get { return isLoading.Value; } }
+        private bool isLoading;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set { this.RaiseAndSetIfChanged(ref isLoading, value); }
+        }
 
-        public ReactiveList<IBitmap> Images { get; set; }
+        private ReactiveList<IBitmap> images;
+
+        public ReactiveList<IBitmap> Images
+        {
+            get { return images; }
+            set { this.RaiseAndSetIfChanged(ref images, value); }
+        }
 
         public ReactiveCommand<ReactiveList<IBitmap>> Update { get; set; }
 

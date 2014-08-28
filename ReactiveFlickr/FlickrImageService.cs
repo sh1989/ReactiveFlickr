@@ -44,7 +44,7 @@ namespace ReactiveFlickr
                     Title = p.Attribute("title").Value
                 });
 
-            foreach (var photo in photos.Take(10))
+            foreach (var photo in photos.Take(12))
             {
                 var imageData = await c.GetByteArrayAsync(photo.Url);
                 var stream = new MemoryStream(imageData);

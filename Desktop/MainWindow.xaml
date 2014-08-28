@@ -3,14 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:FlickrSearch="clr-namespace:FlickrSearch"
         xmlns:Desktop="clr-namespace:ReactiveFlickr.Desktop"
+        xmlns:ReactiveFlickr="clr-namespace:ReactiveFlickr;assembly=ReactiveFlickr"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance FlickrSearch:FlickrSearchViewModel}"
-        Title="MainWindow" Height="350" Width="525">
+        d:DataContext="{d:DesignInstance ReactiveFlickr:FlickrSearchViewModel}"
+        Title="MainWindow" Height="507" Width="633">
     
     <Window.Resources>
         <Desktop:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <Desktop:BitmapSourceConverter x:Key="bitmapSourceConverter" />
     </Window.Resources>
     
     <Grid>
@@ -22,7 +23,25 @@
         <TextBox Grid.Row="0"
                  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
         
-        <ListView Grid.Row="1" />
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Images}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding ., Converter={StaticResource bitmapSourceConverter}}" Height="150" Width="150" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <ScrollViewer>
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
         
         <TextBlock Grid.Row="1"
                    Text="Error"
