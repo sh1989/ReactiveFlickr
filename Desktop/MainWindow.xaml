@@ -7,7 +7,7 @@
         xmlns:ReactiveFlickr="clr-namespace:ReactiveFlickr;assembly=ReactiveFlickr"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance ReactiveFlickr:FlickrSearchViewModel}"
-        Title="MainWindow" Height="507" Width="633">
+        Title="MainWindow" Height="538" Width="633">
     
     <Window.Resources>
         <Desktop:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
@@ -21,7 +21,10 @@
         </Grid.RowDefinitions>
         
         <TextBox Grid.Row="0"
-                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="10"
+                 Padding="4,0"
+                 FontSize="20" />
         
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Images}">
             <ItemsControl.ItemTemplate>
@@ -43,15 +46,20 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
         
+        <Grid Grid.Row="1"
+                    Visibility="{Binding IsLoading, Converter={StaticResource boolToVisibilityConverter}}"
+                    Background="#D0FFFFFF">           
+            <TextBlock Text="Loading..."
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="24" />           
+        </Grid>
+        
         <TextBlock Grid.Row="1"
                    Text="Error"
                    HorizontalAlignment="Center"
                    Visibility="{Binding ShowError, Converter={StaticResource boolToVisibilityConverter}}" />
         
-        <TextBlock Grid.Row="1"
-                   Text="Loading"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Visibility="{Binding IsLoading, Converter={StaticResource boolToVisibilityConverter}}" />
+        
     </Grid>
 </Window>
