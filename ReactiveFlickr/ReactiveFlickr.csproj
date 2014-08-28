@@ -38,6 +38,7 @@
     <Compile Include="FlickrSearchViewModel.cs" />
     <Compile Include="IImageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ReactiveUI">

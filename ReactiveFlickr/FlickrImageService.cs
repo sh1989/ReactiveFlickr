@@ -1,12 +1,11 @@
-﻿using System.IO;
+﻿using ReactiveUI;
+using Splat;
+using System;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Xml.Linq;
-using ReactiveUI;
-using System;
-using System.Net;
 using System.Threading.Tasks;
-using Splat;
+using System.Xml.Linq;
 
 namespace ReactiveFlickr
 {
@@ -15,15 +14,14 @@ namespace ReactiveFlickr
         private readonly Random rand = new Random();
         private readonly static string endpoint = "flickr.photos.search";
         private readonly static string api_key = "16bbec210cb487b52ba397c3d98d4def";
-        private readonly string secret = "268fa82bf686cf02";
 
         private readonly string searchUrlFormat = "https://api.flickr.com/services/rest?method=" + endpoint + "&api_key=" + api_key + "&text={0}&safe_search=1&content_type=1&media=photos";
         private readonly string photoUrlFormat = "https://farm{0}.staticflickr.com/{1}/{2}_{3}_q.jpg";
 
 
-        public async Task<ReactiveList<IBitmap>> GetImages(string searchTerm)
+        public async Task<ReactiveList<SearchResult>> GetImages(string searchTerm)
         {
-            var list = new ReactiveList<IBitmap>();
+            var list = new ReactiveList<SearchResult>();
             var c = new HttpClient();
             var address = new Uri(string.Format(searchUrlFormat, searchTerm));
             var searchResults = await c.GetStringAsync(address);
@@ -31,8 +29,7 @@ namespace ReactiveFlickr
             var pa = XDocument.Parse(searchResults)
                 .Descendants("photos")
                 .Descendants("photo");
-            var photos = pa
-               
+            var photos = pa               
                 .Select(p => new
                 {
                     Url = string.Format(
@@ -49,7 +46,7 @@ namespace ReactiveFlickr
                 var imageData = await c.GetByteArrayAsync(photo.Url);
                 var stream = new MemoryStream(imageData);
                 var image = await BitmapLoader.Current.Load(stream, null, null);
-                list.Add(image);
+                list.Add(new SearchResult(image, photo.Title));
             }
 
             /*

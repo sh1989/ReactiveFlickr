@@ -29,7 +29,10 @@
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Images}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding ., Converter={StaticResource bitmapSourceConverter}}" Height="150" Width="150" />
+                    <Image Source="{Binding Image, Converter={StaticResource bitmapSourceConverter}}"
+                           Height="150"
+                           Width="150"
+                           ToolTip="{Binding Title}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.Template>

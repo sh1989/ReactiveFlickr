@@ -10,7 +10,7 @@ namespace ReactiveFlickr
     {
         public FlickrSearchViewModel(IImageService imageService)
         {
-            Images = new ReactiveList<IBitmap>();
+            Images = new ReactiveList<SearchResult>();
 
             this.WhenAnyValue(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
@@ -21,7 +21,7 @@ namespace ReactiveFlickr
 
                     if (string.IsNullOrWhiteSpace(x))
                     {
-                        return Task.FromResult(new ReactiveList<IBitmap>());
+                        return Task.FromResult(new ReactiveList<SearchResult>());
                     }
 
                     return imageService.GetImages(x);
@@ -59,9 +59,8 @@ namespace ReactiveFlickr
             set { this.RaiseAndSetIfChanged(ref isLoading, value); }
         }
 
-        private ReactiveList<IBitmap> images;
-
-        public ReactiveList<IBitmap> Images
+        private ReactiveList<SearchResult> images;
+        public ReactiveList<SearchResult> Images
         {
             get { return images; }
             set { this.RaiseAndSetIfChanged(ref images, value); }
