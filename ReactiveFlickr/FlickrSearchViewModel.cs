@@ -12,37 +12,23 @@ namespace ReactiveFlickr
         {
             Images = new ReactiveList<SearchResult>();
 
-            this.WhenAnyValue(x => x.SearchText)
-                .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
-                .Do(_ =>
-                {
-                    IsLoading = true;
-                    ShowError = false;
-                })
-                .Select(x =>
-                {
-                    if (string.IsNullOrWhiteSpace(x))
-                    {
-                        return Task.FromResult(new ReactiveList<SearchResult>());
-                    }
+            var canExecute = this.WhenAnyValue(x => x.SearchText)
+                .Select(x => !String.IsNullOrWhiteSpace(x));
 
-                    return imageService.GetImages(x);
-                })
-                .Switch()
-                .SubscribeOn(RxApp.MainThreadScheduler)
-                .Subscribe(
-                    images =>
-                    {
-                        IsLoading = false;
-                        Images = images;
-                    },
-                    exception =>
-                    {
-                        ShowError = true;
-                        IsLoading = false;
-                    },
-                    () => { });
+            Search = ReactiveCommand.CreateAsyncTask(
+                canExecute,
+                _ =>
+                {
+                    ShowError = false;
+                    return imageService.GetImages(SearchText);
+                });
+            Search.Subscribe(images => Images = images);
+            Search.ThrownExceptions.Subscribe(_ => ShowError = true);
+
+            isLoading = Search.IsExecuting.ToProperty(this, vm => vm.IsLoading);
         }
+
+        public ReactiveCommand<ReactiveList<SearchResult>> Search { get; set; }
 
         private string searchText;
         public string SearchText
@@ -58,11 +44,10 @@ namespace ReactiveFlickr
             set { this.RaiseAndSetIfChanged(ref showError, value); }
         }
 
-        private bool isLoading;
+        private readonly ObservableAsPropertyHelper<bool> isLoading;
         public bool IsLoading
         {
-            get { return isLoading; }
-            set { this.RaiseAndSetIfChanged(ref isLoading, value); }
+            get { return isLoading.Value; }
         }
 
         private ReactiveList<SearchResult> images;
