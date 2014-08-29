@@ -6,9 +6,93 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:Mobile="using:ReactiveFlickr.Mobile"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <Page.Resources>
+        <Mobile:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <Mobile:BitmapSourceConverter x:Key="bitmapSourceConverter" />
+    </Page.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                Padding="4,0"
+                FontSize="20"
+                Margin="0, 0, 10, 0" />
+
+            <Button Grid.Column="1"
+                    Padding="4"
+                    Content="Search"
+                    Command="{Binding Search}" />
+
+        </Grid>
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Images}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Image, Converter={StaticResource bitmapSourceConverter}}"
+                           Height="150"
+                           Width="150"
+                           ToolTipService.ToolTip="{Binding Title}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <ScrollViewer>
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <Grid Grid.Row="1"
+              Visibility="{Binding IsLoading, Converter={StaticResource boolToVisibilityConverter}}"
+              Background="#D0FFFFFF">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                <TextBlock Text="Searching..."
+                           TextAlignment="Center"
+                           FontSize="24"
+                           Margin="0, 0, 0, 10" />
+
+                <ProgressBar IsIndeterminate="True"
+                             Height="20"
+                             Width="150" />
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Visibility="{Binding ShowError, Converter={StaticResource boolToVisibilityConverter}}"
+              Background="#D0FFFFFF">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                <TextBlock Text=":("
+                           TextAlignment="Center"
+                           Foreground="DarkGray"
+                           FontSize="70"
+                           Margin="0, 0, 0, 10" />
+
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
