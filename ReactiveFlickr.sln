@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveFlickr", "ReactiveF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mobile", "Mobile\Mobile.csproj", "{B0069E88-B5F1-428E-8E56-6775407BD9B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{707F7E61-514F-4057-B2CB-86D67E67831B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,14 @@ Global
 		{B0069E88-B5F1-428E-8E56-6775407BD9B0}.Release|x86.ActiveCfg = Release|x86
 		{B0069E88-B5F1-428E-8E56-6775407BD9B0}.Release|x86.Build.0 = Release|x86
 		{B0069E88-B5F1-428E-8E56-6775407BD9B0}.Release|x86.Deploy.0 = Release|x86
+		{707F7E61-514F-4057-B2CB-86D67E67831B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707F7E61-514F-4057-B2CB-86D67E67831B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{707F7E61-514F-4057-B2CB-86D67E67831B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{707F7E61-514F-4057-B2CB-86D67E67831B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{707F7E61-514F-4057-B2CB-86D67E67831B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{707F7E61-514F-4057-B2CB-86D67E67831B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{707F7E61-514F-4057-B2CB-86D67E67831B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{707F7E61-514F-4057-B2CB-86D67E67831B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
