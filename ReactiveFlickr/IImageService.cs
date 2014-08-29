@@ -1,10 +1,9 @@
-﻿using ReactiveUI;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace ReactiveFlickr
 {
     public interface IImageService
     {
-        Task<ReactiveList<SearchResult>> GetImages(string searchTerm);
+        IObservable<SearchResult> GetImages(string searchText);
     }
 }

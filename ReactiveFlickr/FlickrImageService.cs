@@ -1,10 +1,9 @@
-﻿using ReactiveUI;
-using Splat;
+﻿using Splat;
 using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
 using System.Xml.Linq;
 
 namespace ReactiveFlickr
@@ -18,64 +17,38 @@ namespace ReactiveFlickr
         private readonly string searchUrlFormat = "https://api.flickr.com/services/rest?method=" + endpoint + "&api_key=" + api_key + "&text={0}&safe_search=1&content_type=1&media=photos";
         private readonly string photoUrlFormat = "https://farm{0}.staticflickr.com/{1}/{2}_{3}_q.jpg";
 
-
-        public async Task<ReactiveList<SearchResult>> GetImages(string searchTerm)
+        public IObservable<SearchResult> GetImages(string searchText)
         {
-            var list = new ReactiveList<SearchResult>();
-            var c = new HttpClient();
-            var address = new Uri(string.Format(searchUrlFormat, searchTerm));
-            var searchResults = await c.GetStringAsync(address);
-
-            var pa = XDocument.Parse(searchResults)
-                .Descendants("photos")
-                .Descendants("photo");
-            var photos = pa               
-                .Select(p => new
-                {
-                    Url = string.Format(
-                        photoUrlFormat,
-                        p.Attribute("farm").Value,
-                        p.Attribute("server").Value,
-                        p.Attribute("id").Value,
-                        p.Attribute("secret").Value),
-                    Title = p.Attribute("title").Value
-                });
-
-            foreach (var photo in photos.Take(12))
+            return Observable.Create<SearchResult>(async observer =>
             {
-                var imageData = await c.GetByteArrayAsync(photo.Url);
-                var stream = new MemoryStream(imageData);
-                var image = await BitmapLoader.Current.Load(stream, null, null);
-                list.Add(new SearchResult(image, photo.Title));
-            }
+                var c = new HttpClient();
+                var address = new Uri(string.Format(searchUrlFormat, searchText));
+                var searchResults = await c.GetStringAsync(address);
 
-            /*
-             * expected response:
-             * <photos>
-             *  <photo id="" owner="" secret="" server="" title="" farm="" />
-             * </photos>
-             * 
-             * to map to a url:
-             * https://farm{farm}.staticflickr.com/{server}/{id}_{secret}.jpg
-             * 
-             * optionally add _[size], where size =
-             * s: 75x75
-             * q: 150x150
-             * 
-             * t: 100 on longest side
-             * m: 240 on longest side
-             * n: 320 on longest side
-             * -: 500 on longest side
-             * z: 640 on longest side
-             * c: 800 on longest side
-             * b: 1024 on longest side
-             * 
-             * o: original
-             */
+                var pa = XDocument.Parse(searchResults)
+                    .Descendants("photos")
+                    .Descendants("photo");
+                var photos = pa
+                    .Select(p => new
+                    {
+                        Url = string.Format(
+                            photoUrlFormat,
+                            p.Attribute("farm").Value,
+                            p.Attribute("server").Value,
+                            p.Attribute("id").Value,
+                            p.Attribute("secret").Value),
+                        Title = p.Attribute("title").Value
+                    });
 
-            //await Task.Delay(rand.Next(1000, 3000));
-
-            return list;
+                foreach (var photo in photos)
+                {
+                    var imageData = await c.GetByteArrayAsync(photo.Url);
+                    var stream = new MemoryStream(imageData);
+                    var image = await BitmapLoader.Current.Load(stream, null, null);
+                    observer.OnNext(new SearchResult(image, photo.Title));
+                }
+                observer.OnCompleted();
+            });
         }
     }
 }

@@ -15,20 +15,21 @@ namespace ReactiveFlickr
             var canExecute = this.WhenAnyValue(x => x.SearchText)
                 .Select(x => !String.IsNullOrWhiteSpace(x));
 
-            Search = ReactiveCommand.CreateAsyncTask(
+            Search = ReactiveCommand.CreateAsyncObservable(
                 canExecute,
                 _ =>
                 {
+                    Images.Clear();
                     ShowError = false;
                     return imageService.GetImages(SearchText);
                 });
-            Search.Subscribe(images => Images = images);
+            Search.Subscribe(images => Images.Add(images));
             Search.ThrownExceptions.Subscribe(_ => ShowError = true);
 
             isLoading = Search.IsExecuting.ToProperty(this, vm => vm.IsLoading);
         }
 
-        public ReactiveCommand<ReactiveList<SearchResult>> Search { get; set; }
+        public ReactiveCommand<SearchResult> Search { get; set; }
 
         private string searchText;
         public string SearchText
