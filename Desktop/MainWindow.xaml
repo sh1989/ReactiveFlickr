@@ -12,11 +12,28 @@
     <Window.Resources>
         <Desktop:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
         <Desktop:BitmapSourceConverter x:Key="bitmapSourceConverter" />
+        
+        <DataTemplate x:Key="imageTemplate">
+            <Image Source="{Binding Image, Converter={StaticResource bitmapSourceConverter}}"
+                   Height="150"
+                   Width="150"
+                   ToolTip="{Binding Title}" />
+        </DataTemplate>
+        <ControlTemplate x:Key="scrollViewTemplate">
+            <ScrollViewer>
+                <ItemsPresenter />
+            </ScrollViewer>
+        </ControlTemplate>
+        <ItemsPanelTemplate x:Key="gridViewTemplate">
+            <WrapPanel IsItemsHost="True" />
+        </ItemsPanelTemplate>
+        
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="15" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -38,49 +55,20 @@
                     Command="{Binding Search}" />
             
         </Grid>
-        
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Images}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Image Source="{Binding Image, Converter={StaticResource bitmapSourceConverter}}"
-                           Height="150"
-                           Width="150"
-                           ToolTip="{Binding Title}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.Template>
-                <ControlTemplate>
-                    <ScrollViewer>
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-        
-        <Grid Grid.Row="1"
-                    Visibility="{Binding IsLoading, Converter={StaticResource boolToVisibilityConverter}}"
-                    Background="#D0FFFFFF">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                
-                <TextBlock Text="Searching..."
-                           TextAlignment="Center"
-                           FontSize="24"
-                           Margin="0, 0, 0, 10" />
 
-                <ProgressBar IsIndeterminate="True"
-                             Height="20"
-                             Width="150" />
+        <ProgressBar Grid.Row="1"
+                     Foreground="Blue"
+                     Background="White"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsLoading, Converter={StaticResource boolToVisibilityConverter}}" />
 
-            </StackPanel>            
-        </Grid>
+        <ItemsControl Grid.Row="2"
+                      ItemsSource="{Binding Images}"
+                      ItemTemplate="{StaticResource imageTemplate}"
+                      Template="{StaticResource scrollViewTemplate}"
+                      ItemsPanel="{StaticResource gridViewTemplate}" />
 
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="2"
                     Visibility="{Binding ShowError, Converter={StaticResource boolToVisibilityConverter}}"
                     Background="#D0FFFFFF">
             <StackPanel HorizontalAlignment="Center"
