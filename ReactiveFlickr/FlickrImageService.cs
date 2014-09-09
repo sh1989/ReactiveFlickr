@@ -17,9 +17,9 @@ namespace ReactiveFlickr
         private readonly string searchUrlFormat = "https://api.flickr.com/services/rest?method=" + endpoint + "&api_key=" + api_key + "&text={0}&safe_search=1&content_type=1&media=photos";
         private readonly string photoUrlFormat = "https://farm{0}.staticflickr.com/{1}/{2}_{3}_q.jpg";
 
-        public IObservable<SearchResult> GetImages(string searchText)
+        public IObservable<SearchResultViewModel> GetImages(string searchText)
         {
-            return Observable.Create<SearchResult>(async observer =>
+            return Observable.Create<SearchResultViewModel>(async observer =>
             {
                 var c = new HttpClient();
                 var address = new Uri(string.Format(searchUrlFormat, searchText));
@@ -42,10 +42,17 @@ namespace ReactiveFlickr
 
                 foreach (var photo in photos)
                 {
-                    var imageData = await c.GetByteArrayAsync(photo.Url);
-                    var stream = new MemoryStream(imageData);
-                    var image = await BitmapLoader.Current.Load(stream, null, null);
-                    observer.OnNext(new SearchResult(image, photo.Title));
+                    try
+                    {
+                        var imageData = await c.GetByteArrayAsync(photo.Url);
+                        var stream = new MemoryStream(imageData);
+                        var image = await BitmapLoader.Current.Load(stream, null, null);
+							observer.OnNext(new SearchResultViewModel(image, photo.Title));
+                    }
+                    catch (HttpRequestException e)
+                    {
+                        // Right now do nothing
+                    }
                 }
                 observer.OnCompleted();
             });

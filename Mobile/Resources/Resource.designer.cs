@@ -26,6 +26,7 @@ namespace Mobile
 		
 		public static void UpdateIdValues()
 		{
+			global::Splat.Resource.String.library_name = global::Mobile.Resource.String.library_name;
 		}
 		
 		public partial class Attribute
@@ -47,6 +48,9 @@ namespace Mobile
 			// aapt resource value: 0x7f020000
 			public const int Icon = 2130837504;
 			
+			// aapt resource value: 0x7f020001
+			public const int monoandroidsplash = 2130837505;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -60,8 +64,20 @@ namespace Mobile
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int myButton = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int image = 2131099648;
+			
+			// aapt resource value: 0x7f060004
+			public const int imagesList = 2131099652;
+			
+			// aapt resource value: 0x7f060003
+			public const int searchButton = 2131099651;
+			
+			// aapt resource value: 0x7f060002
+			public const int searchText = 2131099650;
+			
+			// aapt resource value: 0x7f060001
+			public const int title = 2131099649;
 			
 			static Id()
 			{
@@ -77,7 +93,10 @@ namespace Mobile
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int ImageItem = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int Main = 2130903041;
 			
 			static Layout()
 			{
@@ -92,11 +111,14 @@ namespace Mobile
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int app_name = 2130968577;
+			// aapt resource value: 0x7f040002
+			public const int app_name = 2130968578;
 			
 			// aapt resource value: 0x7f040000
-			public const int hello = 2130968576;
+			public const int library_name = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public const int search = 2130968577;
 			
 			static String()
 			{
@@ -104,6 +126,22 @@ namespace Mobile
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Style
+		{
+			
+			// aapt resource value: 0x7f050000
+			public const int Mono_Android_Theme_Splash = 2131034112;
+			
+			static Style()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Style()
 			{
 			}
 		}

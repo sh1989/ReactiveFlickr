@@ -10,7 +10,7 @@ namespace ReactiveFlickr
     {
         public FlickrSearchViewModel(IImageService imageService)
         {
-            Images = new ReactiveList<SearchResult>();
+            Images = new ReactiveList<SearchResultViewModel>();
 
             var canExecute = this.WhenAnyValue(x => x.SearchText)
                 .Select(x => !String.IsNullOrWhiteSpace(x));
@@ -29,7 +29,7 @@ namespace ReactiveFlickr
             isLoading = Search.IsExecuting.ToProperty(this, vm => vm.IsLoading);
         }
 
-        public ReactiveCommand<SearchResult> Search { get; set; }
+        public ReactiveCommand<SearchResultViewModel> Search { get; set; }
 
         private string searchText;
         public string SearchText
@@ -51,8 +51,8 @@ namespace ReactiveFlickr
             get { return isLoading.Value; }
         }
 
-        private ReactiveList<SearchResult> images;
-        public ReactiveList<SearchResult> Images
+        private ReactiveList<SearchResultViewModel> images;
+        public ReactiveList<SearchResultViewModel> Images
         {
             get { return images; }
             set { this.RaiseAndSetIfChanged(ref images, value); }
