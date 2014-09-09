@@ -85,3 +85,9 @@ Generated_Code/
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Upgrade logs
+UpgradeLog.htm
+
+### XamarinStudio ###
+*.userprefs
