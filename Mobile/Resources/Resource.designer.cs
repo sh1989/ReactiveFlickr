@@ -24,11 +24,6 @@ namespace ReactiveFlickr.Mobile
 			global::Android.Runtime.ResourceIdManager.UpdateIdValues();
 		}
 		
-		public static void UpdateIdValues()
-		{
-			global::Splat.Resource.String.library_name = global::ReactiveFlickr.Mobile.Resource.String.library_name;
-		}
-		
 		public partial class Attribute
 		{
 			
@@ -111,14 +106,11 @@ namespace ReactiveFlickr.Mobile
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040002
-			public const int app_name = 2130968578;
+			// aapt resource value: 0x7f040001
+			public const int app_name = 2130968577;
 			
 			// aapt resource value: 0x7f040000
-			public const int library_name = 2130968576;
-			
-			// aapt resource value: 0x7f040001
-			public const int search = 2130968577;
+			public const int search = 2130968576;
 			
 			static String()
 			{
@@ -135,6 +127,9 @@ namespace ReactiveFlickr.Mobile
 			
 			// aapt resource value: 0x7f050000
 			public const int Mono_Android_Theme_Splash = 2131034112;
+			
+			// aapt resource value: 0x7f050001
+			public const int ReactiveFlickrTheme = 2131034113;
 			
 			static Style()
 			{
