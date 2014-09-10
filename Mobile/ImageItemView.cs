@@ -6,7 +6,7 @@ using Android.Content;
 using Android.Widget;
 using Splat;
 
-namespace Mobile
+namespace ReactiveFlickr.Mobile
 {
 	public class ImageItemView : ReactiveViewHost<SearchResultViewModel>
 	{

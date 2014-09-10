@@ -9,9 +9,9 @@ using Android.OS;
 using ReactiveFlickr;
 using ReactiveUI;
 
-namespace Mobile
+namespace ReactiveFlickr.Mobile
 {
-	[Activity (Label = "Mobile", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "ReactiveFlickr", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : ReactiveActivity<FlickrSearchViewModel>
 	{
 		public EditText SearchText { get; private set; }

@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Mobile.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("ReactiveFlickr.Mobile.Resource", IsApplication=true)]
 
-namespace Mobile
+namespace ReactiveFlickr.Mobile
 {
 	
 	
@@ -26,7 +26,7 @@ namespace Mobile
 		
 		public static void UpdateIdValues()
 		{
-			global::Splat.Resource.String.library_name = global::Mobile.Resource.String.library_name;
+			global::Splat.Resource.String.library_name = global::ReactiveFlickr.Mobile.Resource.String.library_name;
 		}
 		
 		public partial class Attribute
