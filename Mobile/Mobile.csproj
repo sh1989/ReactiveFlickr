@@ -79,6 +79,10 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\ImageItem.axml" />
     <AndroidResource Include="Resources\values\Themes.xml" />
+    <AndroidResource Include="Resources\anim\loading_rotate.axml" />
+    <AndroidResource Include="Resources\menu\menu_reactiveflickr.axml" />
+    <AndroidResource Include="Resources\layout\loading_action_item.axml" />
+    <AndroidResource Include="Resources\drawable\loading.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -86,5 +90,9 @@
       <Project>{85C5489F-318C-498B-A516-CC173057A510}</Project>
       <Name>ReactiveFlickr</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\anim\" />
+    <Folder Include="Resources\menu\" />
   </ItemGroup>
 </Project>

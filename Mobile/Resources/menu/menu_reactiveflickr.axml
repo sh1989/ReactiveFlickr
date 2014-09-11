@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:id="@+id/loading"
+		android:visible="false"
+		android:showAsAction="ifRoom"
+		android:title="@string/loading"
+		android:actionLayout="@layout/loading_action_item"/> 
+</menu>    

@@ -24,6 +24,27 @@ namespace ReactiveFlickr.Mobile
 			global::Android.Runtime.ResourceIdManager.UpdateIdValues();
 		}
 		
+		public static void UpdateIdValues()
+		{
+			global::Splat.Resource.String.library_name = global::ReactiveFlickr.Mobile.Resource.String.library_name;
+		}
+		
+		public partial class Animation
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int loading_rotate = 2130968576;
+			
+			static Animation()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Animation()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -44,7 +65,10 @@ namespace ReactiveFlickr.Mobile
 			public const int Icon = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int monoandroidsplash = 2130837505;
+			public const int loading = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int monoandroidsplash = 2130837506;
 			
 			static Drawable()
 			{
@@ -59,20 +83,23 @@ namespace ReactiveFlickr.Mobile
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060000
-			public const int image = 2131099648;
+			// aapt resource value: 0x7f080000
+			public const int image = 2131230720;
 			
-			// aapt resource value: 0x7f060004
-			public const int imagesList = 2131099652;
+			// aapt resource value: 0x7f080004
+			public const int imagesList = 2131230724;
 			
-			// aapt resource value: 0x7f060003
-			public const int searchButton = 2131099651;
+			// aapt resource value: 0x7f080005
+			public const int loading = 2131230725;
 			
-			// aapt resource value: 0x7f060002
-			public const int searchText = 2131099650;
+			// aapt resource value: 0x7f080003
+			public const int searchButton = 2131230723;
 			
-			// aapt resource value: 0x7f060001
-			public const int title = 2131099649;
+			// aapt resource value: 0x7f080002
+			public const int searchText = 2131230722;
+			
+			// aapt resource value: 0x7f080001
+			public const int title = 2131230721;
 			
 			static Id()
 			{
@@ -91,7 +118,10 @@ namespace ReactiveFlickr.Mobile
 			public const int ImageItem = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int Main = 2130903041;
+			public const int loading_action_item = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int Main = 2130903042;
 			
 			static Layout()
 			{
@@ -103,14 +133,36 @@ namespace ReactiveFlickr.Mobile
 			}
 		}
 		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f070000
+			public const int menu_reactiveflickr = 2131165184;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int app_name = 2130968577;
+			// aapt resource value: 0x7f050002
+			public const int app_name = 2131034114;
 			
-			// aapt resource value: 0x7f040000
-			public const int search = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int library_name = 2131034112;
+			
+			// aapt resource value: 0x7f050003
+			public const int loading = 2131034115;
+			
+			// aapt resource value: 0x7f050001
+			public const int search = 2131034113;
 			
 			static String()
 			{
@@ -125,11 +177,11 @@ namespace ReactiveFlickr.Mobile
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int Mono_Android_Theme_Splash = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int Mono_Android_Theme_Splash = 2131099648;
 			
-			// aapt resource value: 0x7f050001
-			public const int ReactiveFlickrTheme = 2131034113;
+			// aapt resource value: 0x7f060001
+			public const int ReactiveFlickrTheme = 2131099649;
 			
 			static Style()
 			{
