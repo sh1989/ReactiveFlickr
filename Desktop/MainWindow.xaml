@@ -45,6 +45,7 @@
 
             <TextBox
                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding CanEnterSearchText}"
                 Padding="4,0"
                 FontSize="20"
                 Margin="0, 0, 10, 0" />

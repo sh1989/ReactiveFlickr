@@ -32,18 +32,23 @@ namespace ReactiveFlickr.Mobile
 			var service = new FlickrImageService();
 			ViewModel = new FlickrSearchViewModel(service);
 
+			// Load views
 			SearchText = FindViewById<EditText> (Resource.Id.searchText);
 			SearchButton = FindViewById<Button>(Resource.Id.searchButton);
 			ImagesList = FindViewById<ListView> (Resource.Id.imagesList);
 
+			// Set up bindings
 			this.Bind(ViewModel, vm => vm.SearchText, v => v.SearchText.Text);
+			this.OneWayBind (ViewModel, vm => vm.CanEnterSearchText, v => v.SearchText.Enabled);
 			this.BindCommand(ViewModel, vm => vm.Search, v => v.SearchButton);
 
+			// Configure list adapter
 			var adapter = new ReactiveListAdapter<SearchResultViewModel>(
 				ViewModel.Images,
 				(viewModel, parent) => new ImageItemView(viewModel, this, parent));
 			ImagesList.Adapter = adapter;
 
+			// Set up animations
 			var loadingAnimation = AnimationUtils.LoadAnimation(this, Resource.Animation.loading_rotate);
 			loadingAnimation.RepeatCount = Animation.Infinite;
 			loadingAnimation.RepeatMode = RepeatMode.Restart;

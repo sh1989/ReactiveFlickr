@@ -27,6 +27,10 @@ namespace ReactiveFlickr
             Search.ThrownExceptions.Subscribe(_ => ShowError = true);
 
             isLoading = Search.IsExecuting.ToProperty(this, vm => vm.IsLoading);
+
+            canEnterSearchText = this.WhenAnyValue(x => x.IsLoading)
+                .Select(x => !x)
+                .ToProperty(this, vm => vm.CanEnterSearchText);
         }
 
         public ReactiveCommand<SearchResultViewModel> Search { get; set; }
@@ -49,6 +53,12 @@ namespace ReactiveFlickr
         public bool IsLoading
         {
             get { return isLoading.Value; }
+        }
+
+        private readonly ObservableAsPropertyHelper<bool> canEnterSearchText;
+        public bool CanEnterSearchText
+        {
+            get { return canEnterSearchText.Value; }
         }
 
         private ReactiveList<SearchResultViewModel> images;
