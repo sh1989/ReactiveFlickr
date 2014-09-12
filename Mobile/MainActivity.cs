@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Linq;
 
 using Android.App;
 using Android.Content;
@@ -68,6 +69,13 @@ namespace ReactiveFlickr.Mobile
 
 						loadingItem.SetVisible(isLoading);
 					}
+				});
+
+			this.WhenAnyValue (v => v.ViewModel.ShowError)
+				.Where (x => x)
+				.Subscribe (showError => {
+					Toast.MakeText(this, "Could not load image data", ToastLength.Long)
+						.Show();
 				});
 		}
 
