@@ -14,6 +14,19 @@ namespace ReactiveFlickr.Desktop
 
             var service = new FlickrImageService();
             ViewModel = new FlickrSearchViewModel(service);
+
+            this.Bind(ViewModel, vm => vm.SearchText, v => v.SearchText.Text);
+            this.OneWayBind(ViewModel, vm => vm.CanEnterSearchText, v => v.SearchText.IsEnabled);
+            this.BindCommand(ViewModel, vm => vm.Search, v => v.Search);
+
+            this.OneWayBind(ViewModel, vm => vm.IsLoading, v => v.IsLoading.Visibility);
+
+            // NB: Because Images doesn't have an ItemTemplate, ReactiveUI will 
+            // give you one Automagically, that will look up Views based on their
+            // IViewFor<ViewModel> type
+            this.OneWayBind(ViewModel, vm => vm.Images, v => v.Images.ItemsSource);
+
+            this.OneWayBind(ViewModel, vm => vm.ShowError, v => v.ShowError.Visibility);
         }
 
         public FlickrSearchViewModel ViewModel {

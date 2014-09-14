@@ -29,34 +29,28 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBox
-                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding CanEnterSearchText}"
+            <TextBox x:Name="SearchText"
                 Padding="4,0"
                 FontSize="20"
                 Margin="0, 0, 10, 0" />
             
-            <Button Grid.Column="1"
+            <Button x:Name="Search"
+                    Grid.Column="1"
                     Padding="4"
-                    Content="Search"
-                    Command="{Binding Search}" />
-            
+                    Content="Search" />
         </Grid>
 
-        <ProgressBar Grid.Row="1"
+        <ProgressBar x:Name="IsLoading"
+                     Grid.Row="1"
                      Foreground="Blue"
                      Background="White"
-                     IsIndeterminate="True"
-                     Visibility="{Binding IsLoading, Converter={StaticResource boolToVisibilityConverter}}" />
+                     IsIndeterminate="True" />
 
-        <ItemsControl Grid.Row="2"
-                      ItemsSource="{Binding Images}"
-                      ItemTemplate="{StaticResource imageTemplate}"
+        <ItemsControl x:Name="Images" Grid.Row="2"
                       Template="{StaticResource scrollViewTemplate}"
                       ItemsPanel="{StaticResource gridViewTemplate}" />
 
-        <Grid Grid.Row="2"
-                    Visibility="{Binding ShowError, Converter={StaticResource boolToVisibilityConverter}}"
+        <Grid Grid.Row="2" x:Name="ShowError"
                     Background="#D0FFFFFF">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
