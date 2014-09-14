@@ -22,8 +22,19 @@ namespace ReactiveFlickr
             return Observable.Create<SearchResultViewModel>(async observer =>
             {
                 var c = new HttpClient();
-                var address = new Uri(string.Format(searchUrlFormat, searchText));
-                var searchResults = await c.GetStringAsync(address);
+                var address = default(Uri);
+                var searchResults = default(string); 
+
+                try 
+                {
+                    address = new Uri(string.Format(searchUrlFormat, searchText));
+                    searchResults = await c.GetStringAsync(address);
+                } 
+                catch (Exception ex) 
+                {
+                    observer.OnError(ex);
+                    return;
+                }
 
                 var pa = XDocument.Parse(searchResults)
                     .Descendants("photos")
@@ -49,11 +60,18 @@ namespace ReactiveFlickr
                         var image = await BitmapLoader.Current.Load(stream, null, null);
 							observer.OnNext(new SearchResultViewModel(image, photo.Title));
                     }
-                    catch (HttpRequestException e)
+                    catch (HttpRequestException)
                     {
                         // Right now do nothing
+                        continue;
+                    } 
+                    catch (Exception ex) 
+                    {
+                        // Any other kind of error, we want to send to subscribers
+                        observer.OnError(ex);
                     }
                 }
+
                 observer.OnCompleted();
             });
         }
