@@ -27,10 +27,12 @@ namespace ReactiveFlickr.Desktop
         {
             InitializeComponent();
 
-            this.WhenAny(x => x.ViewModel.Image, x => x.Value.ToNative())
-                .BindTo(this, x => x.ImageHost.Source);
+            this.WhenActivated(d => {
+                d(this.WhenAny(x => x.ViewModel.Image, x => x.Value.ToNative())
+                    .BindTo(this, x => x.ImageHost.Source));
 
-            this.OneWayBind(ViewModel, vm => vm.Title, v => v.ImageHost.ToolTip);
+                d(this.OneWayBind(ViewModel, vm => vm.Title, v => v.ImageHost.ToolTip));
+            });
         }
 
         public SearchResultViewModel ViewModel {
