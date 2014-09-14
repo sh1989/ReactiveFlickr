@@ -3,6 +3,7 @@ using NSubstitute;
 using Splat;
 using System;
 using System.Reactive.Linq;
+using System.Reactive.Disposables;
 
 namespace ReactiveFlickr.Test
 {
@@ -202,13 +203,7 @@ namespace ReactiveFlickr.Test
 
                 var service = Substitute.For<IImageService>();
                 service.GetImages(Arg.Any<string>())
-                    .Returns(
-                        Observable.Create<SearchResultViewModel>(async obs =>
-                        {
-                            obs.OnNext(photo1);
-                            obs.OnNext(photo2);
-                            obs.OnCompleted();
-                        }));
+                    .Returns(new[] { photo1, photo2, }.ToObservable());
 
                 subject = new FlickrSearchViewModel(service)
                 {
