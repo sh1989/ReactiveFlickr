@@ -2,23 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:Desktop="clr-namespace:ReactiveFlickr.Desktop"
-        xmlns:ReactiveFlickr="clr-namespace:ReactiveFlickr;assembly=ReactiveFlickr"
-        mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance ReactiveFlickr:FlickrSearchViewModel}"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
         Title="ReactiveFlickr" Height="538" Width="633">
     
     <Window.Resources>
-        <Desktop:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
-        <Desktop:BitmapSourceConverter x:Key="bitmapSourceConverter" />
-        
-        <DataTemplate x:Key="imageTemplate">
-            <Image Source="{Binding Image, Converter={StaticResource bitmapSourceConverter}}"
-                   Height="150"
-                   Width="150"
-                   ToolTip="{Binding Title}" />
-        </DataTemplate>
         <ControlTemplate x:Key="scrollViewTemplate">
             <ScrollViewer>
                 <ItemsPresenter />
@@ -27,7 +14,6 @@
         <ItemsPanelTemplate x:Key="gridViewTemplate">
             <WrapPanel IsItemsHost="True" />
         </ItemsPanelTemplate>
-        
     </Window.Resources>
 
     <Grid>
@@ -43,34 +29,28 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBox
-                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding CanEnterSearchText}"
+            <TextBox x:Name="SearchText"
                 Padding="4,0"
                 FontSize="20"
                 Margin="0, 0, 10, 0" />
             
-            <Button Grid.Column="1"
+            <Button x:Name="Search"
+                    Grid.Column="1"
                     Padding="4"
-                    Content="Search"
-                    Command="{Binding Search}" />
-            
+                    Content="Search" />
         </Grid>
 
-        <ProgressBar Grid.Row="1"
+        <ProgressBar x:Name="IsLoading"
+                     Grid.Row="1"
                      Foreground="Blue"
                      Background="White"
-                     IsIndeterminate="True"
-                     Visibility="{Binding IsLoading, Converter={StaticResource boolToVisibilityConverter}}" />
+                     IsIndeterminate="True" />
 
-        <ItemsControl Grid.Row="2"
-                      ItemsSource="{Binding Images}"
-                      ItemTemplate="{StaticResource imageTemplate}"
+        <ItemsControl x:Name="Images" Grid.Row="2"
                       Template="{StaticResource scrollViewTemplate}"
                       ItemsPanel="{StaticResource gridViewTemplate}" />
 
-        <Grid Grid.Row="2"
-                    Visibility="{Binding ShowError, Converter={StaticResource boolToVisibilityConverter}}"
+        <Grid Grid.Row="2" x:Name="ShowError"
                     Background="#D0FFFFFF">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">

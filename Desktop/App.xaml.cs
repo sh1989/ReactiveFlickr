@@ -5,6 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ReactiveFlickr;
+using ReactiveFlickr.Desktop;
+using ReactiveUI;
+using Splat;
 
 namespace FlickrSearch
 {
@@ -13,5 +17,9 @@ namespace FlickrSearch
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Locator.CurrentMutable.Register(() => new ImageTileView(), typeof(IViewFor<SearchResultViewModel>));
+        }
     }
 }
