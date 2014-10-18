@@ -1,8 +1,6 @@
 ﻿using ReactiveUI;
-using Splat;
 using System;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace ReactiveFlickr
 {
@@ -23,7 +21,9 @@ namespace ReactiveFlickr
                     ShowError = false;
                     return imageService.GetImages(SearchText);
                 });
+
             Search.Subscribe(images => Images.Add(images));
+
             Search.ThrownExceptions.Subscribe(_ => ShowError = true);
 
             isLoading = Search.IsExecuting.ToProperty(this, vm => vm.IsLoading);
@@ -67,9 +67,6 @@ namespace ReactiveFlickr
             get { return images; }
             set { this.RaiseAndSetIfChanged(ref images, value); }
         }
-
-        public ReactiveCommand<ReactiveList<IBitmap>> Update { get; set; }
-
         
     }
 }
